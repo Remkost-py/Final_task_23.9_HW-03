@@ -26,7 +26,7 @@ python manage.py shell
 >>> article2 = Post.objects.create(author=author2, type='article', title='Научная статья об образовании', content='Вот тут текст второй статьи...')
 >>> news_item = Post.objects.create(author=author1, type='news', title='Новости политики', content='Это новостная заметка.')
 
-# Присваиваем категориям (не менее двух категорий для одного поста)
+# Присваиваем категориям
 >>> article1.categories.add(cat1, cat3)
 >>> article2.categories.add(cat2)
 >>> news_item.categories.add(cat4)
