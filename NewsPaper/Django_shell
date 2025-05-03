@@ -5,7 +5,7 @@ python manage.py shell
 
 # Импортируем необходимые классы моделей
 >>> from django.contrib.auth.models import User
->>> from news.models import *
+>>> from News_Portal.models import *
 
 # Создаем двух пользователей
 >>> user1 = User.objects.create_user(username='user1', password='password1')
