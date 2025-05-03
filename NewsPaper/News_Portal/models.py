@@ -45,9 +45,9 @@ class Post(models.Model):
     def preview(self):
         text_post = str(self.content.value_from_object(self))
         if len(text_post) > 124:
-            return f'{text_post[:124]}...'
+            return f'{self.content[:124]}...'
         else:
-            return text_post
+            return self.content
 
 
 class Comment(models.Model):
