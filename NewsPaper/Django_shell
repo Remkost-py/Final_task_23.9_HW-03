@@ -4,59 +4,59 @@
 python manage.py shell
 
 # Импортируем необходимые классы моделей
->>> from django.contrib.auth.models import User
->>> from News_Portal.models import *
+from django.contrib.auth.models import User
+from News_Portal.models import *
 
 # Создаем двух пользователей
->>> user1 = User.objects.create_user(username='user1', password='password1')
->>> user2 = User.objects.create_user(username='user2', password='password2')
+user1 = User.objects.create_user(username='user1', password='password1')
+user2 = User.objects.create_user(username='user2', password='password2')
 
 # Создаем два объекта модели Author, связанных с пользователями
->>> author1 = Author.objects.create(user=user1)
->>> author2 = Author.objects.create(user=user2)
+author1 = Author.objects.create(user=user1)
+author2 = Author.objects.create(user=user2)
 
 # Добавляем четыре категории
->>> cat1 = Category.objects.create(name='Спорт')
->>> cat2 = Category.objects.create(name='Политика')
->>> cat3 = Category.objects.create(name='Образование')
->>> cat4 = Category.objects.create(name='Культура')
+cat1 = Category.objects.create(name='Спорт')
+cat2 = Category.objects.create(name='Политика')
+cat3 = Category.objects.create(name='Образование')
+cat4 = Category.objects.create(name='Культура')
 
 # Добавляем две статьи и одну новость
->>> article1 = Post.objects.create(author=author1, type='article', title='Новая статья о спорте', content='Здесь текст первой статьи...')
->>> article2 = Post.objects.create(author=author2, type='article', title='Научная статья об образовании', content='Вот тут текст второй статьи...')
->>> news_item = Post.objects.create(author=author1, type='news', title='Новости политики', content='Это новостная заметка.')
+article1 = Post.objects.create(author=author1, type='article', title='Новая статья о спорте', content='Здесь текст первой статьи...')
+article2 = Post.objects.create(author=author2, type='article', title='Научная статья об образовании', content='Вот тут текст второй статьи...')
+news_item = Post.objects.create(author=author1, type='news', title='Новости политики', content='Это новостная заметка.')
 
 # Присваиваем категориям
->>> article1.categories.add(cat1, cat3)
->>> article2.categories.add(cat2)
->>> news_item.categories.add(cat4)
+article1.categories.add(cat1, cat3)
+article2.categories.add(cat2)
+news_item.categories.add(cat4)
 
 # Комментируем посты
->>> comment1 = Comment.objects.create(post=article1, user=user1, text='Хорошая статья!')
->>> comment2 = Comment.objects.create(post=article2, user=user2, text='Интересная информация.')
->>> comment3 = Comment.objects.create(post=news_item, user=user1, text='Полезная новость.')
->>> comment4 = Comment.objects.create(post=article1, user=user2, text='Ух ты, классно написано!')
+comment1 = Comment.objects.create(post=article1, user=user1, text='Хорошая статья!')
+comment2 = Comment.objects.create(post=article2, user=user2, text='Интересная информация.')
+comment3 = Comment.objects.create(post=news_item, user=user1, text='Полезная новость.')
+comment4 = Comment.objects.create(post=article1, user=user2, text='Ух ты, классно написано!')
 
 # Изменяем рейтинги постов и комментов
->>> article1.like()
->>> article2.dislike()
->>> news_item.like()
->>> comment1.like()
->>> comment2.dislike()
->>> comment3.like()
->>> comment4.like()
+article1.like()
+article2.dislike()
+news_item.like()
+comment1.like()
+comment2.dislike()
+comment3.like()
+comment4.like()
 
 # Обновляем рейтинги авторов
->>> author1.update_rating()
->>> author2.update_rating()
+author1.update_rating()
+author2.update_rating()
 
 # Получение лучших пользователей
->>> best_author = Author.objects.order_by('-rating').first()
->>> print(f'Лучший пользователь: {best_author.user.username}, Рейтинг: {best_author.rating}')
+best_author = Author.objects.order_by('-rating').first()
+print(f'Лучший пользователь: {best_author.user.username}, Рейтинг: {best_author.rating}')
 
 # Лучшая статья
->>> top_article = Post.objects.filter(type='article').order_by('-rating').first()
->>> print(f'''
+top_article = Post.objects.filter(type='article').order_by('-rating').first()
+print(f'''
 Дата публикации: {top_article.created_at}
 Автор: {top_article.author.user.username}
 Рейтинг: {top_article.rating}
@@ -65,7 +65,7 @@ python manage.py shell
 ''')
 
 # Выведем все комментарии к лучшей статье
->>> for c in top_article.comments.all():
+for c in top_article.comments.all():
     print(f'''
 Дата: {c.created_at}
 Пользователь: {c.user.username}
