@@ -6,6 +6,21 @@ class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     rating = models.IntegerField(default=0)
 
+    def update_rating(self):
+        """Обновляем рейтинг автора"""
+        # 1. Сумма рейтингов статей автора, умноженная на 3
+        posts_rating = sum(post.rating for post in Post.objects.filter(author=self)) * 3
+
+        # 2. Рейтинг комментариев самого автора
+        own_comments_rating = sum(comment.rating for comment in Comment.objects.filter(user=self.user))
+
+        # 3. Рейтинг комментариев к статьям автора
+        comments_to_posts_rating = sum(comment.rating for comment in Comment.objects.filter(post__author=self))
+
+        # Итоговый рейтинг
+        self.rating = posts_rating + own_comments_rating + comments_to_posts_rating
+        self.save()
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -43,11 +58,11 @@ class Post(models.Model):
 
     # Метод предварительного просмотра текста поста
     def preview(self):
-        text_post = str(self.content.value_from_object(self))
-        if len(text_post) > 124:
-            return f'{self.content[:124]}...'
+        text_content = self.content  # Получаем содержимое поля
+        if len(str(text_content)) > 124:
+            return f'{text_content[:124]}...'
         else:
-            return self.content
+            return text_content
 
 
 class Comment(models.Model):
